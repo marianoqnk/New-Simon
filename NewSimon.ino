@@ -1,29 +1,26 @@
 #include <MTboard.h>
 #define TIME_INTERMITENTE 500
+#define KEY_TIMEOUT 3000
 #define VECES_INTERMITENTE 5
 #define TIEMPO_ONOFF 500
 #define TIEMPO_PULSAR 2000
-#define LAT "40 19.732"
-#define LONG "03 43.295"
-#define INTENTOS 6
+#define INTENTOS 12
 int secuencia[INTENTOS];
 MTboard mtBoard;
 
-
-
-
-void setup() {
-
+void setup()
+{
+  mtBoard.ini();
   randomSeed(analogRead(A7));// inicia el array con los numeros aleatorios
+   mtBoard.textoScroll("Juega a Simon ");
+
 }
 
-void loop() {
-
+void loop()
+{
   ledsInicio();
   for (int k = 1; k < INTENTOS; k++)
   {
-    //Serial.print(k);
-    //Serial.print(",");
     mtBoard.print(k);
     for (int n = 0; n < k; n++) { //muestra secuencia
       mtBoard.enciendeLed(secuencia[n]);
@@ -57,15 +54,12 @@ void ledsError() {
     delay(TIME_INTERMITENTE);
   }
 }
+
 void ledsInicio() {
-  for ( int n = 0; n < INTENTOS; n++) {
-    secuencia[n] = random(TECLAS);  // para eso utiliza randon
-    //Serial.print(secuencia[n]);
-  }
-  //Serial.println();
+  for ( int n = 0; n < INTENTOS; n++) secuencia[n] = random(TECLAS);  // para eso utiliza randon
   delay(TIME_INTERMITENTE);
-   mtBoard.enciendeTodos();
-    delay(TIME_INTERMITENTE);
-    mtBoard.apagaTodos();
-    delay(TIME_INTERMITENTE);
+  mtBoard.enciendeTodos();
+  delay(TIME_INTERMITENTE);
+  mtBoard.apagaTodos();
+  delay(TIME_INTERMITENTE);
 }
